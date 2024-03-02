@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  kali:
+    image: <your_image_from_Dockerfile - kalilinux>
+    hostname: kali-linux
+    container_name: kali
+    restart: always
+    networks:
+      - Lab1
+    ports:
+      - "2222:22"
+
+  metasploitable2:
+    image: <your_image_from_Dockerfile - metasploitable2>
+    hostname: metasploitable2
+    container_name: metasploitable2
+    restart: always
+    networks:
+      - Lab1
+
+  juice-shop:
+    image: bkimminich/juice-shop
+    hostname: JuiceShop
+    container_name: JuiceShop
+    restart: always
+    networks:
+      Lab1:
+        ipv4_address: 10.10.0.200
+    ports:
+      - "3000:3000"
+
+networks:
+  Lab1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/24
+      driver_opts:
+        com.docker.network.bridge.name: Lab1
